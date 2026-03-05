@@ -1,5 +1,3 @@
-import { profile } from "../data/profile";
-
 export function Navbar() {
   return (
     <div className="nav">
@@ -23,4 +21,5 @@ export function Navbar() {
     </div>
   );
 }
+
 
