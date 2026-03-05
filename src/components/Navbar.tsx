@@ -6,7 +6,7 @@ export function Navbar() {
       <div className="container navInner">
         <a href="#" className="brand" style={{ textDecoration: "none" }}>
           <span className="dot" />
-          <span>{profile.shortName}</span>
+          <span>Tanush Pavan</span>
         </a>
 
         <div className="navLinks">
@@ -23,3 +23,4 @@ export function Navbar() {
     </div>
   );
 }
+
