@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tanushpavan.vercel.app/sitemap.xml
