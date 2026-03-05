@@ -1,56 +1,109 @@
+import { useEffect, useState } from "react";
 import { profile } from "../data/profile";
-import { ConnectCard } from "./ConnectCard";
 
-const skills = ["SystemVerilog", "RTL Design", "Accelerators", "Verification", "AWS", "PyTorch"];
+const roles = [
+  "RTL & Accelerator Designer",
+  "ASIC / FPGA Engineer",
+  "Hardware Verification Lead",
+  "ML + Cloud Developer",
+  "BNN Research Engineer",
+];
+
+function useTypewriter(words: string[], speed = 80, pause = 1800) {
+  const [display, setDisplay] = useState("");
+  const [wordIdx, setWordIdx] = useState(0);
+  const [charIdx, setCharIdx] = useState(0);
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = words[wordIdx];
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (!deleting && charIdx <= current.length) {
+      timeout = setTimeout(() => {
+        setDisplay(current.slice(0, charIdx));
+        setCharIdx(c => c + 1);
+      }, speed);
+    } else if (!deleting && charIdx > current.length) {
+      timeout = setTimeout(() => setDeleting(true), pause);
+    } else if (deleting && charIdx > 0) {
+      timeout = setTimeout(() => {
+        setDisplay(current.slice(0, charIdx - 1));
+        setCharIdx(c => c - 1);
+      }, speed / 2);
+    } else {
+      setDeleting(false);
+      setWordIdx(w => (w + 1) % words.length);
+    }
+    return () => clearTimeout(timeout);
+  }, [charIdx, deleting, wordIdx, words, speed, pause]);
+
+  return display;
+}
+
+function Ext() {
+  return (
+    <svg width="13" height="13" viewBox="0 0 24 24" style={{ flexShrink: 0 }}>
+      <path fill="currentColor" d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3ZM5 5h6v2H7v10h10v-4h2v6H5V5Z" />
+    </svg>
+  );
+}
 
 export function Hero() {
+  const text = useTypewriter(roles);
+
   return (
-    <div className="hero">
-      <div className="container heroGrid">
-
-        {/* Left: main intro */}
-        <div className="card heroCard">
-          <div className="kicker">
-            <span className="dot" />
-            <span>{profile.roleLine}</span>
-          </div>
-
-          <h1 className="title">{profile.name}</h1>
-
-          <p style={{ color: "rgba(234,240,255,0.75)", fontWeight: 500, marginTop: 2 }}>
-            {profile.location}
-          </p>
-
-          <p className="p" style={{ marginTop: 14 }}>
-            I design RTL-level accelerator microarchitecture in SystemVerilog and build
-            end-to-end systems that connect models, formal verification, and cloud deployment.
-            Currently working on patent-pending BNN accelerator research targeting Q1 publication.
-          </p>
-
-          <div className="ctaRow" style={{ marginTop: 20 }}>
-            <a className="btn btnPrimary" href="#projects">
-              View Projects
-            </a>
-            <a className="btn" href={profile.featuredRepo} target="_blank" rel="noreferrer">
-              BNN Accelerator ↗
-            </a>
-            <a className="btn" href="#contact">
-              Get in Touch
-            </a>
-          </div>
-
-          <div className="badges" style={{ marginTop: 18 }}>
-            {skills.map(s => (
-              <span key={s} className="badge">{s}</span>
-            ))}
-          </div>
+    <section className="hero">
+      <div className="heroGlow" />
+      <div className="wrap heroContent">
+        <div className="heroEyebrow">
+          <span className="dot" />
+          <span>{profile.location} · Dual Degree · B.Tech EEE + B.S. Data Science</span>
         </div>
 
-        {/* Right: connect card */}
-        <ConnectCard />
+        <h1 className="heroName">{profile.name}</h1>
 
+        <div className="typewriter">
+          {text}<span className="cursor" />
+        </div>
+
+        <p className="heroDesc">
+          I design RTL-level accelerator microarchitecture in SystemVerilog and build
+          end-to-end systems that connect models, formal verification, and cloud deployment.
+          Patent-pending BNN accelerator research · Q1 journal under review.
+        </p>
+
+        <div className="ctaRow">
+          <a className="btn btnPrimary" href="#projects">View Projects</a>
+          <a className="btn" href={profile.featuredRepo} target="_blank" rel="noreferrer">
+            BNN Accelerator ↗
+          </a>
+          <a className="btn" href={profile.cloudDemo} target="_blank" rel="noreferrer">
+            Cloud Demo ↗
+          </a>
+          <a className="btn" href="#contact">Get in Touch</a>
+        </div>
+
+        <div className="heroStats">
+          <div className="stat">
+            <div className="num">10.67×</div>
+            <div className="lbl">BNN Speedup</div>
+          </div>
+          <div className="stat">
+            <div className="num">374.5</div>
+            <div className="lbl">GOPs Throughput</div>
+          </div>
+          <div className="stat">
+            <div className="num">79.29%</div>
+            <div className="lbl">CIFAR-10 Accuracy</div>
+          </div>
+          <div className="stat">
+            <div className="num">5×</div>
+            <div className="lbl">National Finalist Awards</div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 

@@ -1,25 +1,23 @@
 export function Navbar() {
   return (
-    <div className="nav">
-      <div className="container navInner">
-        <a href="#" className="brand" style={{ textDecoration: "none" }}>
+    <nav className="nav">
+      <div className="wrap navInner">
+        <a href="#" className="brand">
           <span className="dot" />
           <span>Tanush Pavan</span>
         </a>
-
         <div className="navLinks">
           {[
-            { label: "About",    href: "#about"    },
-            { label: "Projects", href: "#projects" },
-            { label: "Resume",   href: "#resume"   },
-            { label: "Contact",  href: "#contact"  },
-          ].map(({ label, href }) => (
-            <a key={label} href={href}>{label}</a>
+            ["About",    "#about"],
+            ["Skills",   "#skills"],
+            ["Projects", "#projects"],
+            ["Contact",  "#contact"],
+          ].map(([label, href]) => (
+            <a key={label} href={href} className="navLink">{label}</a>
           ))}
         </div>
       </div>
-    </div>
+    </nav>
   );
 }
-
 
